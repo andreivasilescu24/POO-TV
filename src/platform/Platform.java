@@ -6,7 +6,7 @@ import pages.*;
 
 import com.fasterxml.jackson.databind.node.ArrayNode;
 
-import java.util.ArrayList;
+import java.util.*;
 
 public final class Platform {
     private Input inputData = new Input();
@@ -83,36 +83,6 @@ public final class Platform {
      *                the next command, correctly.
      */
     public void updateActions(final ArrayList<Action> actions) {
-//        if (actions.size() == 0) {
-//            User currentUser = getHomepageAuthentified().getCurrentUser();
-//            ArrayList<Notification> notificationArrayList = new ArrayList<>();
-//
-//            if (endNotification == 0 && currentUser != null && currentUser.getCredentials().getAccountType().equals("premium")) {
-//                if (currentUser.getLikedMovies().size() == 0) {
-//                    Notification notification = new Notification();
-//                    notification.setMovieName("No recommendation");
-//                    notification.setMessage("Recommendation");
-//
-//                    notificationArrayList.addAll(currentUser.getNotifications());
-//                    notificationArrayList.add(notification);
-//                }
-//
-//                User updatedUser = new User(currentUser.getCredentials(),
-//                        currentUser.getTokensCount(), currentUser.getNumFreePremiumMovies(),
-//                        currentUser.getPurchasedMovies(), currentUser.getWatchedMovies(),
-//                        currentUser.getLikedMovies(), currentUser.getRatedMovies(), notificationArrayList);
-//
-//                updateUser(updatedUser);
-//
-//                output.addObject().putPOJO("error", null)
-//                        .putPOJO("currentMoviesList", null)
-//                        .putPOJO("currentUser", getHomepageAuthentified().getCurrentUser());
-//
-//                endNotification = 1;
-//            }
-//            return;
-//        }
-
         ArrayList<Action> actionsAux = new ArrayList<>();
         actionsAux.addAll(actions);
         actionsAux.remove(0);
@@ -120,22 +90,119 @@ public final class Platform {
         actions.addAll(actionsAux);
     }
 
+    public Notification getRecommendation(ArrayList<Movie> movieDatabase, User currentUser) {
+        Notification notification = new Notification();
+        notification.setMessage("Recommendation");
+
+        if (currentUser.getLikedMovies().size() == 0) {
+            notification.setMovieName("No recommendation");
+            return notification;
+        } else {
+            TreeMap<String, Integer> treeMap = new TreeMap<>();
+            LinkedHashMap<String, Integer> sortedHashMap = new LinkedHashMap<>();
+            ArrayList<Integer> valueList = new ArrayList<>();
+
+            for (Movie movie : currentUser.getLikedMovies()) {
+                for (String genre : movie.getGenres()) {
+                    Integer previous = treeMap.put(genre, 1);
+                    if (previous != null) {
+                        treeMap.put(genre, treeMap.get(genre) + previous);
+                    }
+                }
+            }
+
+            for (Map.Entry<String, Integer> element : treeMap.entrySet()) {
+                valueList.add(element.getValue());
+            }
+            Collections.sort(valueList, Collections.reverseOrder());
+
+            for (Integer value : valueList) {
+                for (Map.Entry<String, Integer> element : treeMap.entrySet()) {
+                    if (element.getValue().equals(value)) {
+                        sortedHashMap.put(element.getKey(), value);
+                    }
+                }
+            }
+
+            ArrayList<Movie> userMovies = new ArrayList<>();
+            userMovies.addAll(movieDatabase);
+
+            for (Movie movie : userMovies) {
+                movie.setByLikes(true);
+            }
+
+            Collections.sort(userMovies);
+
+            for (Movie movie : userMovies) {
+                movie.setByLikes(false);
+            }
+
+            ArrayList<Movie> unwatchedMovies = new ArrayList<>();
+            boolean watched = false;
+
+            for (Movie movie : userMovies) {
+                watched = false;
+                for (Movie watchedMovie : currentUser.getWatchedMovies()) {
+                    if (movie.getName().equals(watchedMovie.getName())) {
+                        watched = true;
+                        break;
+                    }
+                }
+
+                if (!watched) {
+                    unwatchedMovies.add(movie);
+                }
+            }
+
+            if (unwatchedMovies.size() == 0) {
+                notification.setMovieName("No recommendation");
+                return notification;
+            } else {
+                String recommendedMovieName = null;
+                boolean existsRecommendedMovie = false;
+
+                for(Map.Entry<String, Integer> element : sortedHashMap.entrySet()) {
+                    String actualGenre = element.getKey();
+                    existsRecommendedMovie = false;
+
+                    for(Movie movie : unwatchedMovies) {
+                        if(movie.getGenres().contains(actualGenre)) {
+                            recommendedMovieName = movie.getName();
+                            existsRecommendedMovie = true;
+                            break;
+                        }
+                    }
+
+                    if(existsRecommendedMovie) {
+                        notification.setMovieName(recommendedMovieName);
+                        break;
+                    }
+                }
+
+                if(!existsRecommendedMovie) {
+                    notification.setMovieName("No recommendation");
+                }
+
+                return notification;
+            }
+        }
+
+
+    }
+
     public void handleEmptyActions() {
         User currentUser = getHomepageAuthentified().getCurrentUser();
         ArrayList<Notification> notificationArrayList = new ArrayList<>();
 
+        ArrayList<Movie> movieDatabase = inputData.getMovies();
+        getHomepageAuthentified().addPermittedMovies(movieDatabase, this);
+
         if (currentUser != null && currentUser.getCredentials().getAccountType().equals("premium")) {
 
-            if (currentUser.getLikedMovies().size() == 0) {
-                Notification notification = new Notification();
-                notification.setMovieName("No recommendation");
-                notification.setMessage("Recommendation");
+            Notification notification = getRecommendation(getCurrentMoviesList(), currentUser);
 
-                notificationArrayList.addAll(currentUser.getNotifications());
-                notificationArrayList.add(notification);
-
-            }
-
+            notificationArrayList.addAll(currentUser.getNotifications());
+            notificationArrayList.add(notification);
 
             User updatedUser = new User(currentUser.getCredentials(),
                     currentUser.getTokensCount(), currentUser.getNumFreePremiumMovies(),
