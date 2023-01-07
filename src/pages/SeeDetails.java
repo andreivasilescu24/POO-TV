@@ -506,7 +506,7 @@ public final class SeeDetails extends GeneralPage
     @Override
     public void visit(final Upgrades upgrades,
                       final ArrayList<Action> actions, final Platform platform) {
-
+        upgrades.upgradesActionInterpretor(actions, platform);
     }
 
     @Override

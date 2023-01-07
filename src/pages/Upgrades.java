@@ -87,6 +87,8 @@ public final class Upgrades extends GeneralPage
                 if (getPermissions().contains(pageToChange)) {
                     if (actualAction.getPage().equals("movies")) {
                         platform.getMovies().accept(this, actions, platform);
+                    } else if(actualAction.getPage().equals("logout")) {
+                        platform.getLogout().accept(this, actions, platform);
                     }
                 } else {
                     platform.throwError();
@@ -117,7 +119,7 @@ public final class Upgrades extends GeneralPage
     @Override
     public void accept(final SeeDetails seeDetails,
                        final ArrayList<Action> actions, final Platform platform) {
-
+        seeDetails.visit(this, actions, platform);
     }
 
     @Override
@@ -129,7 +131,9 @@ public final class Upgrades extends GeneralPage
     @Override
     public void visit(final Logout logout,
                       final ArrayList<Action> actions, final Platform platform) {
-
+        platform.updateActions(actions);
+        platform.getPagesStack().add("Upgrades");
+        logout.logout(actions, platform);
     }
 
     @Override

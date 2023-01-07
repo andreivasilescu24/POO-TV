@@ -44,7 +44,7 @@ public final class Logout extends GeneralPage implements VisitableLogout, Visito
     @Override
     public void accept(final Upgrades upgrades,
                        final ArrayList<Action> actions, final Platform platform) {
-
+        upgrades.visit(this, actions, platform);
     }
 
     @Override
