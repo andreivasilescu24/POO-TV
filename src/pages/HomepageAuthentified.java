@@ -71,6 +71,14 @@ public final class HomepageAuthentified extends GeneralPage
                     platform.setError(null);
                     returnToHomepageAuthentified(actions, platform);
                 }
+            } else if (actualAction.getType().equals("database")) {
+                if (actualAction.getFeature().equals("delete")) {
+                    platform.databaseDelete(actions);
+                    returnToHomepageAuthentified(actions, platform);
+                } else if (actualAction.getFeature().equals("add")) {
+                    platform.databaseAdd(actions);
+                    returnToHomepageAuthentified(actions, platform);
+                }
             } else {
                 platform.throwError();
                 platform.setError(null);

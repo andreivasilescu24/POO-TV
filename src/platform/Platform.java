@@ -299,6 +299,7 @@ public final class Platform {
         for (Movie movie : movieDatabase) {
             if (movie.getName().equals(addedMovie.getName())) {
                 throwError();
+                setError(null);
                 return false;
             }
         }
@@ -322,6 +323,7 @@ public final class Platform {
 
         if (exists == false) {
             throwError();
+            setError(null);
             return;
         }
 
