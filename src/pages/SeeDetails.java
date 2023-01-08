@@ -92,7 +92,6 @@ public final class SeeDetails extends GeneralPage
                     } else if (previousPage.equals("Movies")) {
                         platform.getPagesStack().remove(pagesStackSize - 1);
                         platform.getMovies().accept(this, actions, platform);
-                    } else if (previousPage.equals("Upgrades")) {
                     }
                 }
             }

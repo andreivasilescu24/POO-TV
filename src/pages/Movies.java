@@ -85,26 +85,25 @@ public final class Movies extends GeneralPage implements VisitorMovies, Visitabl
                     returnToMoviesPage(actions, platform);
                 }
             } else if (actualAction.getType().equals("back")) {
-                if(platform.getPagesStack().size() == 0) {
+                if (platform.getPagesStack().size() == 0) {
                     platform.throwError();
                     platform.setError(null);
                     returnToMoviesPage(actions, platform);
-                }
-                else {
+                } else {
                     String backPage = platform.getPagesStack()
                             .get(platform.getPagesStack().size() - 1);
 
                     if (backPage.equals("HomepageAuthentified")) {
                         platform.getPagesStack().remove(platform.getPagesStack().size() - 1);
-                        platform.getHomepageAuthentified().accept(this, actions, platform);
-                    }
-
-                    if(backPage.equals("See Details")) {
+                        platform.getHomepageAuthentified().homepageAuthentifiedActionInterpretor(actions, platform);
+                    } else if (backPage.equals("See Details")) {
                         platform.getPagesStack().remove(platform.getPagesStack().size() - 1);
-                        platform.getSeeDetails().accept(this, actions, platform);
+                        platform.getSeeDetails().seeDetailsActionInterpretor(actions, platform);
+                    } else if(backPage.equals("Upgrades")) {
+                        platform.getPagesStack().remove(platform.getPagesStack().size() - 1);
+                        platform.getUpgrades().upgradesActionInterpretor(actions, platform);
                     }
-
-                   else {
+                    else {
                         platform.throwError();
                         platform.setError(null);
                         returnToMoviesPage(actions, platform);

@@ -46,6 +46,7 @@ public final class Upgrades extends GeneralPage
                     int nrTokens = Integer.parseInt(actualAction.getCount());
                     int balance = Integer.parseInt(getCurrentUser().getCredentials().getBalance());
 
+
                     balance -= nrTokens;
                     User currentUser = getCurrentUser();
                     User updatedUser = new User(currentUser.getCredentials(),
@@ -54,7 +55,7 @@ public final class Upgrades extends GeneralPage
                             currentUser.getLikedMovies(), currentUser.getRatedMovies(),
                             currentUser.getNotifications(), currentUser.getSubscribedGenres());
 
-                    updatedUser.setTokensCount(nrTokens);
+                    updatedUser.setTokensCount(nrTokens + currentUser.getTokensCount());
                     updatedUser.getCredentials().setBalance(Integer.toString(balance));
 
                     platform.updateUser(updatedUser);
@@ -85,6 +86,8 @@ public final class Upgrades extends GeneralPage
             } else if (actualAction.getType().equals("change page")) {
                 String pageToChange = actualAction.getPage();
                 if (getPermissions().contains(pageToChange)) {
+                    platform.getPagesStack().add("Upgrades");
+
                     if (actualAction.getPage().equals("movies")) {
                         platform.getMovies().accept(this, actions, platform);
                     } else if(actualAction.getPage().equals("logout")) {
@@ -94,6 +97,21 @@ public final class Upgrades extends GeneralPage
                     platform.throwError();
                     platform.setError(null);
                     returnToUpgradesPage(actions, platform);
+                }
+            } else if(actualAction.getType().equals("back")) {
+                String backPage = platform.getPagesStack()
+                        .get(platform.getPagesStack().size() - 1);
+
+                if (backPage.equals("HomepageAuthentified")) {
+                    platform.getPagesStack().remove(platform.getPagesStack().size() - 1);
+                    platform.getHomepageAuthentified()
+                            .homepageAuthentifiedActionInterpretor(actions, platform);
+                } else if(backPage.equals("Movies")) {
+                    platform.getPagesStack().remove(platform.getPagesStack().size() - 1);
+                    platform.getMovies().accept(this, actions, platform);
+                } else if(backPage.equals("See Details")) {
+                    platform.getPagesStack().remove(platform.getPagesStack().size() - 1);
+                    platform.getSeeDetails().seeDetailsActionInterpretor(actions, platform);
                 }
             }
         }
