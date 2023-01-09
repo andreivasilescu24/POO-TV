@@ -1,5 +1,6 @@
 package platform;
 
+import factory.PageFactory;
 import input.data.*;
 
 import pages.*;
@@ -10,14 +11,14 @@ import java.util.*;
 
 public final class Platform {
     private Input inputData = new Input();
-    private HomepageNotAuthentified homepageNotAuthentified = HomepageNotAuthentified.getInstance();
-    private HomepageAuthentified homepageAuthentified = HomepageAuthentified.getInstance();
-    private Login login = Login.getInstance();
-    private Logout logout = Logout.getInstance();
-    private Movies movies = Movies.getInstance();
-    private Register register = Register.getInstance();
-    private SeeDetails seeDetails = SeeDetails.getInstance();
-    private Upgrades upgrades = Upgrades.getInstance();
+    private HomepageNotAuthentified homepageNotAuthentified;
+    private HomepageAuthentified homepageAuthentified;
+    private Login login;
+    private Logout logout;
+    private Movies movies;
+    private Register register;
+    private SeeDetails seeDetails;
+    private Upgrades upgrades;
     private ArrayNode output;
     private String error;
     private ArrayList<Movie> currentMoviesList = new ArrayList<>();
@@ -26,7 +27,14 @@ public final class Platform {
     private static Platform platformInstance = null;
 
     private Platform() {
-
+        homepageNotAuthentified = (HomepageNotAuthentified) PageFactory.createPage("HomepageNotAuthentified");
+        homepageAuthentified = (HomepageAuthentified) PageFactory.createPage("HomepageAuthentified");
+        login = (Login) PageFactory.createPage("Login");
+        logout = (Logout) PageFactory.createPage("Logout");
+        movies = (Movies) PageFactory.createPage("Movies");
+        register = (Register) PageFactory.createPage("Register");
+        seeDetails = (SeeDetails) PageFactory.createPage("SeeDetails");
+        upgrades = (Upgrades) PageFactory.createPage("Upgrades");
     }
 
     public static Platform getPlatformInstance() {
@@ -161,25 +169,25 @@ public final class Platform {
                 String recommendedMovieName = null;
                 boolean existsRecommendedMovie = false;
 
-                for(Map.Entry<String, Integer> element : sortedHashMap.entrySet()) {
+                for (Map.Entry<String, Integer> element : sortedHashMap.entrySet()) {
                     String actualGenre = element.getKey();
                     existsRecommendedMovie = false;
 
-                    for(Movie movie : unwatchedMovies) {
-                        if(movie.getGenres().contains(actualGenre)) {
+                    for (Movie movie : unwatchedMovies) {
+                        if (movie.getGenres().contains(actualGenre)) {
                             recommendedMovieName = movie.getName();
                             existsRecommendedMovie = true;
                             break;
                         }
                     }
 
-                    if(existsRecommendedMovie) {
+                    if (existsRecommendedMovie) {
                         notification.setMovieName(recommendedMovieName);
                         break;
                     }
                 }
 
-                if(!existsRecommendedMovie) {
+                if (!existsRecommendedMovie) {
                     notification.setMovieName("No recommendation");
                 }
 

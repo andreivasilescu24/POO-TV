@@ -87,9 +87,7 @@ public final class SeeDetails extends GeneralPage
                     int pagesStackSize = platform.getPagesStack().size();
                     String previousPage = platform.getPagesStack().get(pagesStackSize - 1);
 
-                    if (previousPage.equals("HomepageAuthentified")) {
-
-                    } else if (previousPage.equals("Movies")) {
+                    if (previousPage.equals("Movies")) {
                         platform.getPagesStack().remove(pagesStackSize - 1);
                         platform.getMovies().accept(this, actions, platform);
                     }
