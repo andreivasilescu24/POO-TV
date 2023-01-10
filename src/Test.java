@@ -213,7 +213,7 @@ public final class Test {
 
     private static void preTestCleanUp() {
         TEST_OUT_FILE.delete();
-  }
+    }
 
     private static void printMessage(final String testFileName, final String message) {
         printMessage(testFileName, message, false);

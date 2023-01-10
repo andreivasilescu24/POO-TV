@@ -1,6 +1,5 @@
 package platform;
 
-import factory.PageFactory;
 import input.data.*;
 
 import pages.*;
@@ -11,14 +10,14 @@ import java.util.*;
 
 public final class Platform {
     private Input inputData = new Input();
-    private HomepageNotAuthentified homepageNotAuthentified;
-    private HomepageAuthentified homepageAuthentified;
-    private Login login;
-    private Logout logout;
-    private Movies movies;
-    private Register register;
-    private SeeDetails seeDetails;
-    private Upgrades upgrades;
+    private HomepageNotAuthentified homepageNotAuthentified = HomepageNotAuthentified.getInstance();
+    private HomepageAuthentified homepageAuthentified = HomepageAuthentified.getInstance();
+    private Login login = Login.getInstance();
+    private Logout logout = Logout.getInstance();
+    private Movies movies = Movies.getInstance();
+    private Register register = Register.getInstance();
+    private SeeDetails seeDetails = SeeDetails.getInstance();
+    private Upgrades upgrades = Upgrades.getInstance();
     private ArrayNode output;
     private String error;
     private ArrayList<Movie> currentMoviesList = new ArrayList<>();
@@ -26,15 +25,8 @@ public final class Platform {
     private ArrayList<String> pagesStack = new ArrayList<>();
     private static Platform platformInstance = null;
 
-    private Platform() {
-        homepageNotAuthentified = (HomepageNotAuthentified) PageFactory.createPage("HomepageNotAuthentified");
-        homepageAuthentified = (HomepageAuthentified) PageFactory.createPage("HomepageAuthentified");
-        login = (Login) PageFactory.createPage("Login");
-        logout = (Logout) PageFactory.createPage("Logout");
-        movies = (Movies) PageFactory.createPage("Movies");
-        register = (Register) PageFactory.createPage("Register");
-        seeDetails = (SeeDetails) PageFactory.createPage("SeeDetails");
-        upgrades = (Upgrades) PageFactory.createPage("Upgrades");
+    public Platform() {
+
     }
 
     public static Platform getPlatformInstance() {
@@ -408,7 +400,7 @@ public final class Platform {
     }
 
     public void initPlatform() {
-        homepageNotAuthentified.returnToHomepageNotAuthentified(inputData.getActions(), this);
+        ((HomepageNotAuthentified) homepageNotAuthentified).returnToHomepageNotAuthentified(inputData.getActions(), this);
     }
 
     public Input getInputData() {

@@ -6,6 +6,8 @@ import input.data.Contains;
 import input.data.Movie;
 import input.data.Sort;
 import platform.Platform;
+import strategy.ContainsFilter;
+import strategy.SortFilter;
 import visitable.interfaces.VisitableMovies;
 import visitor.interfaces.VisitorMovies;
 
@@ -138,35 +140,40 @@ public final class Movies extends GeneralPage implements VisitorMovies, Visitabl
         Sort sort = actualAction.getFilters().getSort();
 
         ArrayList<Movie> filteredMovies = new ArrayList<>();
-        filteredMovies.addAll(platform.getCurrentMoviesList());
+//        filteredMovies.addAll(platform.getCurrentMoviesList());
 
         if (contains != null) {
-            if (contains.getActors() != null) {
-                ArrayList<String> actors = contains.getActors();
-                filteredMovies.removeIf(movie -> !containsActors(movie, actors));
-            }
-
-            if (contains.getGenre() != null) {
-                ArrayList<String> genres = contains.getGenre();
-                filteredMovies.removeIf(movie -> !containsGenre(movie, genres));
-            }
+//            if (contains.getActors() != null) {
+//                ArrayList<String> actors = contains.getActors();
+//                filteredMovies.removeIf(movie -> !containsActors(movie, actors));
+//            }
+//
+//            if (contains.getGenre() != null) {
+//                ArrayList<String> genres = contains.getGenre();
+//                filteredMovies.removeIf(movie -> !containsGenre(movie, genres));
+//            }
+            ContainsFilter containsFilter = new ContainsFilter();
+            containsFilter.filter(platform.getCurrentMoviesList(), actualAction);
 
         }
 
         if (sort != null) {
-            String durationSortingOrder = actualAction.getFilters().getSort().getDuration();
-            String ratingSortingOrder = actualAction.getFilters().getSort().getRating();
-
-            for (Movie movie : filteredMovies) {
-                movie.setDurationSortingOrder(durationSortingOrder);
-                movie.setRatingSortingOrder(ratingSortingOrder);
-            }
-
-            Collections.sort(filteredMovies);
+//            String durationSortingOrder = actualAction.getFilters().getSort().getDuration();
+//            String ratingSortingOrder = actualAction.getFilters().getSort().getRating();
+//
+//            for (Movie movie : filteredMovies) {
+//                movie.setDurationSortingOrder(durationSortingOrder);
+//                movie.setRatingSortingOrder(ratingSortingOrder);
+//            }
+//
+//            Collections.sort(filteredMovies);
+            SortFilter sortFilter = new SortFilter();
+            sortFilter.filter(platform.getCurrentMoviesList(), actualAction);
         }
 
-        platform.getCurrentMoviesList().clear();
-        platform.getCurrentMoviesList().addAll(filteredMovies);
+//        platform.getCurrentMoviesList().clear();
+//        platform.getCurrentMoviesList().addAll(filteredMovies);
+        filteredMovies.addAll(platform.getCurrentMoviesList());
 
         platform.getOutput().addObject().put("error", platform.getError())
                 .putPOJO("currentMoviesList", filteredMovies)
