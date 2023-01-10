@@ -49,13 +49,17 @@ public final class Upgrades extends GeneralPage
 
                     balance -= nrTokens;
                     User currentUser = getCurrentUser();
-                    User updatedUser = new User(currentUser.getCredentials(),
-                            currentUser.getTokensCount(), currentUser.getNumFreePremiumMovies(),
-                            currentUser.getPurchasedMovies(), currentUser.getWatchedMovies(),
-                            currentUser.getLikedMovies(), currentUser.getRatedMovies(),
-                            currentUser.getNotifications(), currentUser.getSubscribedGenres());
+                    User updatedUser = new User.Builder(currentUser.getCredentials())
+                            .tokensCount(nrTokens + currentUser.getTokensCount())
+                            .numFreePremiumMovies(currentUser.getNumFreePremiumMovies())
+                            .purchasedMovies(currentUser.getPurchasedMovies())
+                            .watchedMovies(currentUser.getWatchedMovies())
+                            .likedMovies(currentUser.getLikedMovies())
+                            .ratedMovies(currentUser.getRatedMovies())
+                            .notifications(currentUser.getNotifications())
+                            .subscribedGenres(currentUser.getSubscribedGenres())
+                            .build();
 
-                    updatedUser.setTokensCount(nrTokens + currentUser.getTokensCount());
                     updatedUser.getCredentials().setBalance(Integer.toString(balance));
 
                     platform.updateUser(updatedUser);
@@ -70,13 +74,17 @@ public final class Upgrades extends GeneralPage
                     nrTokens -= costPremiumAccount;
 
                     User currentUser = getCurrentUser();
-                    User updatedUser = new User(currentUser.getCredentials(),
-                            currentUser.getTokensCount(), currentUser.getNumFreePremiumMovies(),
-                            currentUser.getPurchasedMovies(), currentUser.getWatchedMovies(),
-                            currentUser.getLikedMovies(), currentUser.getRatedMovies(),
-                            currentUser.getNotifications(), currentUser.getSubscribedGenres());
+                    User updatedUser = new User.Builder(currentUser.getCredentials())
+                            .tokensCount(nrTokens)
+                            .numFreePremiumMovies(currentUser.getNumFreePremiumMovies())
+                            .purchasedMovies(currentUser.getPurchasedMovies())
+                            .watchedMovies(currentUser.getWatchedMovies())
+                            .likedMovies(currentUser.getLikedMovies())
+                            .ratedMovies(currentUser.getRatedMovies())
+                            .notifications(currentUser.getNotifications())
+                            .subscribedGenres(currentUser.getSubscribedGenres())
+                            .build();
 
-                    updatedUser.setTokensCount(nrTokens);
                     updatedUser.getCredentials().setAccountType("premium");
 
                     platform.updateUser(updatedUser);

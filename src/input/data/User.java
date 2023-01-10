@@ -18,7 +18,70 @@ public final class User {
     @JsonIgnore
     private ArrayList<String> subscribedGenres = new ArrayList<>();
 
+    public static class Builder {
+        private Credentials credentials;
+        private int tokensCount;
+        private int numFreePremiumMovies;
+        private ArrayList<Movie> purchasedMovies = new ArrayList<>();
+        private ArrayList<Movie> watchedMovies = new ArrayList<>();
+        private ArrayList<Movie> likedMovies = new ArrayList<>();
+        private ArrayList<Movie> ratedMovies = new ArrayList<>();
+        private ArrayList<Notification> notifications = new ArrayList<>();
+        private ArrayList<String> subscribedGenres = new ArrayList<>();
 
+        public Builder (Credentials credentials) {
+            this.credentials = new Credentials(credentials);
+        }
+        public Builder tokensCount(int tokensCount) {
+            this.tokensCount = tokensCount;
+            return this;
+        }
+        public Builder numFreePremiumMovies(int numFreePremiumMovies) {
+            this.numFreePremiumMovies = numFreePremiumMovies;
+            return this;
+        }
+        public Builder purchasedMovies(ArrayList<Movie> purchasedMovies) {
+            this.purchasedMovies.addAll(purchasedMovies);
+            return this;
+        }
+        public Builder watchedMovies(ArrayList<Movie> watchedMovies) {
+            this.watchedMovies.addAll(watchedMovies);
+            return this;
+        }
+        public Builder likedMovies(ArrayList<Movie> likedMovies) {
+            this.likedMovies.addAll(likedMovies);
+            return this;
+        }
+        public Builder ratedMovies(ArrayList<Movie> ratedMovies) {
+            this.ratedMovies.addAll(ratedMovies);
+            return this;
+        }
+        public Builder notifications(ArrayList<Notification> notifications) {
+            this.notifications.addAll(notifications);
+            return this;
+        }
+        public Builder subscribedGenres(ArrayList<String> subscribedGenres) {
+            this.subscribedGenres.addAll(subscribedGenres);
+            return this;
+        }
+
+        public User build() {
+            return new User(this);
+        }
+
+    }
+
+    private User(Builder builder) {
+        this.credentials = builder.credentials;
+        this.tokensCount = builder.tokensCount;
+        this.numFreePremiumMovies = builder.numFreePremiumMovies;
+        this.purchasedMovies = builder.purchasedMovies;
+        this.watchedMovies = builder.watchedMovies;
+        this.likedMovies = builder.likedMovies;
+        this.ratedMovies = builder.ratedMovies;
+        this.notifications = builder.notifications;
+        this.subscribedGenres = builder.subscribedGenres;
+    }
     public User() {
         numFreePremiumMovies = startingPremiumMoviesNumber;
     }

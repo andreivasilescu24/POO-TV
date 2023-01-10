@@ -212,11 +212,16 @@ public final class Platform {
             notificationArrayList.addAll(currentUser.getNotifications());
             notificationArrayList.add(notification);
 
-            User updatedUser = new User(currentUser.getCredentials(),
-                    currentUser.getTokensCount(), currentUser.getNumFreePremiumMovies(),
-                    currentUser.getPurchasedMovies(), currentUser.getWatchedMovies(),
-                    currentUser.getLikedMovies(), currentUser.getRatedMovies(),
-                    notificationArrayList, currentUser.getSubscribedGenres());
+            User updatedUser = new User.Builder(currentUser.getCredentials())
+                    .tokensCount(currentUser.getTokensCount())
+                    .numFreePremiumMovies(currentUser.getNumFreePremiumMovies())
+                    .purchasedMovies(currentUser.getPurchasedMovies())
+                    .watchedMovies(currentUser.getWatchedMovies())
+                    .likedMovies(currentUser.getLikedMovies())
+                    .ratedMovies(currentUser.getRatedMovies())
+                    .notifications(notificationArrayList)
+                    .subscribedGenres(currentUser.getSubscribedGenres())
+                    .build();
 
             updateUser(updatedUser);
 
@@ -368,11 +373,16 @@ public final class Platform {
                     notificationArrayList.addAll(user.getNotifications());
                     notificationArrayList.add(addNotification);
 
-                    User updatedUser = new User(user.getCredentials(),
-                            user.getTokensCount(), user.getNumFreePremiumMovies(),
-                            user.getPurchasedMovies(), user.getWatchedMovies(),
-                            user.getLikedMovies(), user.getRatedMovies(),
-                            notificationArrayList, user.getSubscribedGenres());
+                    User updatedUser = new User.Builder(user.getCredentials())
+                            .tokensCount(user.getTokensCount())
+                            .numFreePremiumMovies(user.getNumFreePremiumMovies())
+                            .purchasedMovies(user.getPurchasedMovies())
+                            .watchedMovies(user.getWatchedMovies())
+                            .likedMovies(user.getLikedMovies())
+                            .ratedMovies(user.getRatedMovies())
+                            .notifications(notificationArrayList)
+                            .subscribedGenres(user.getSubscribedGenres())
+                            .build();
 
                     if (getHomepageAuthentified().getCurrentUser().getCredentials()
                             .getName().equals(updatedUser.getCredentials().getName())

@@ -175,10 +175,16 @@ public final class SeeDetails extends GeneralPage
                 outputMovie.add(foundMovie);
 
                 User currentUser = getCurrentUser();
-                User updatedUser = new User(currentUser.getCredentials(), currentUser.getTokensCount(),
-                        currentUser.getNumFreePremiumMovies(), purchasedMovies,
-                        currentUser.getWatchedMovies(), currentUser.getLikedMovies(),
-                        currentUser.getRatedMovies(), currentUser.getNotifications(), currentUser.getSubscribedGenres());
+                User updatedUser = new User.Builder(currentUser.getCredentials())
+                        .tokensCount(currentUser.getTokensCount())
+                        .numFreePremiumMovies(currentUser.getNumFreePremiumMovies())
+                        .purchasedMovies(purchasedMovies)
+                        .watchedMovies(currentUser.getWatchedMovies())
+                        .likedMovies(currentUser.getLikedMovies())
+                        .ratedMovies(currentUser.getRatedMovies())
+                        .notifications(currentUser.getNotifications())
+                        .subscribedGenres(currentUser.getSubscribedGenres())
+                        .build();
 
                 if (getCurrentUser().getCredentials().getAccountType().equals("premium")) {
                     if (updatedUser.getNumFreePremiumMovies() == 0) {
@@ -239,10 +245,16 @@ public final class SeeDetails extends GeneralPage
                 watchedMovies.add(foundMovie);
 
                 User currentUser = getCurrentUser();
-                User updatedUser = new User(currentUser.getCredentials(), currentUser.getTokensCount(),
-                        currentUser.getNumFreePremiumMovies(), currentUser.getPurchasedMovies(),
-                        watchedMovies, currentUser.getLikedMovies(),
-                        currentUser.getRatedMovies(), currentUser.getNotifications(), currentUser.getSubscribedGenres());
+                User updatedUser = new User.Builder(currentUser.getCredentials())
+                        .tokensCount(currentUser.getTokensCount())
+                        .numFreePremiumMovies(currentUser.getNumFreePremiumMovies())
+                        .purchasedMovies(currentUser.getPurchasedMovies())
+                        .watchedMovies(watchedMovies)
+                        .likedMovies(currentUser.getLikedMovies())
+                        .ratedMovies(currentUser.getRatedMovies())
+                        .notifications(currentUser.getNotifications())
+                        .subscribedGenres(currentUser.getSubscribedGenres())
+                        .build();
 
                 platform.updateUser(updatedUser);
             }
@@ -290,10 +302,16 @@ public final class SeeDetails extends GeneralPage
             platform.updateMovieList(foundMovie, updatedMovie);
 
             User currentUser = getCurrentUser();
-            User updatedUser = new User(currentUser.getCredentials(), currentUser.getTokensCount(),
-                    currentUser.getNumFreePremiumMovies(), currentUser.getPurchasedMovies(),
-                    currentUser.getWatchedMovies(), likedMovies,
-                    currentUser.getRatedMovies(), currentUser.getNotifications(), currentUser.getSubscribedGenres());
+            User updatedUser = new User.Builder(currentUser.getCredentials())
+                    .tokensCount(currentUser.getTokensCount())
+                    .numFreePremiumMovies(currentUser.getNumFreePremiumMovies())
+                    .purchasedMovies(currentUser.getPurchasedMovies())
+                    .watchedMovies(currentUser.getWatchedMovies())
+                    .likedMovies(likedMovies)
+                    .ratedMovies(currentUser.getRatedMovies())
+                    .notifications(currentUser.getNotifications())
+                    .subscribedGenres(currentUser.getSubscribedGenres())
+                    .build();
 
             platform.updateUser(updatedUser);
 
@@ -409,11 +427,16 @@ public final class SeeDetails extends GeneralPage
                 }
 
                 User currentUser = getCurrentUser();
-                User updatedUser = new User(currentUser.getCredentials(),
-                        currentUser.getTokensCount(), currentUser.getNumFreePremiumMovies(),
-                        currentUser.getPurchasedMovies(), currentUser.getWatchedMovies(),
-                        currentUser.getLikedMovies(), ratedMovies, currentUser.getNotifications(),
-                        currentUser.getSubscribedGenres());
+                User updatedUser = new User.Builder(currentUser.getCredentials())
+                        .tokensCount(currentUser.getTokensCount())
+                        .numFreePremiumMovies(currentUser.getNumFreePremiumMovies())
+                        .purchasedMovies(currentUser.getPurchasedMovies())
+                        .watchedMovies(currentUser.getWatchedMovies())
+                        .likedMovies(currentUser.getLikedMovies())
+                        .ratedMovies(ratedMovies)
+                        .notifications(currentUser.getNotifications())
+                        .subscribedGenres(currentUser.getSubscribedGenres())
+                        .build();
 
                 platform.updateUser(updatedUser);
                 platform.updateArrayOfMovies(platform.getCurrentMoviesList(), updatedUser.getPurchasedMovies());
@@ -466,11 +489,16 @@ public final class SeeDetails extends GeneralPage
             } else {
                 userSubscribedGenres.add(subscribedGenre);
 
-                User updatedUser = new User(currentUser.getCredentials(),
-                        currentUser.getTokensCount(), currentUser.getNumFreePremiumMovies(),
-                        currentUser.getPurchasedMovies(), currentUser.getWatchedMovies(),
-                        currentUser.getLikedMovies(), currentUser.getRatedMovies(), currentUser.getNotifications(),
-                        userSubscribedGenres);
+                User updatedUser = new User.Builder(currentUser.getCredentials())
+                        .tokensCount(currentUser.getTokensCount())
+                        .numFreePremiumMovies(currentUser.getNumFreePremiumMovies())
+                        .purchasedMovies(currentUser.getPurchasedMovies())
+                        .watchedMovies(currentUser.getWatchedMovies())
+                        .likedMovies(currentUser.getLikedMovies())
+                        .ratedMovies(currentUser.getRatedMovies())
+                        .notifications(currentUser.getNotifications())
+                        .subscribedGenres(userSubscribedGenres)
+                        .build();
 
                 platform.updateUser(updatedUser);
                 returnToSeeDetailsPage(actions, platform);

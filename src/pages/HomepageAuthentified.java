@@ -128,6 +128,8 @@ public final class HomepageAuthentified extends GeneralPage
         ArrayList<Movie> likedMovies = new ArrayList<>();
         ArrayList<Movie> ratedMovies = new ArrayList<>();
 
+        User currentUser = getCurrentUser();
+
         purchasedMovies.addAll(getCurrentUser().getPurchasedMovies());
         watchedMovies.addAll(getCurrentUser().getWatchedMovies());
         likedMovies.addAll(getCurrentUser().getLikedMovies());
@@ -138,10 +140,16 @@ public final class HomepageAuthentified extends GeneralPage
         platform.updateArrayOfMovies(platform.getCurrentMoviesList(), likedMovies);
         platform.updateArrayOfMovies(platform.getCurrentMoviesList(), ratedMovies);
 
-        User updatedUser = new User(getCurrentUser().getCredentials(), getCurrentUser().getTokensCount(),
-                getCurrentUser().getNumFreePremiumMovies(), purchasedMovies,
-                watchedMovies, likedMovies, ratedMovies, getCurrentUser().getNotifications(),
-                getCurrentUser().getSubscribedGenres());
+        User updatedUser = new User.Builder(currentUser.getCredentials())
+                .tokensCount(currentUser.getTokensCount())
+                .numFreePremiumMovies(currentUser.getNumFreePremiumMovies())
+                .purchasedMovies(purchasedMovies)
+                .watchedMovies(watchedMovies)
+                .likedMovies(likedMovies)
+                .ratedMovies(ratedMovies)
+                .notifications(currentUser.getNotifications())
+                .subscribedGenres(currentUser.getSubscribedGenres())
+                .build();
 
         platform.updateUser(updatedUser);
 
