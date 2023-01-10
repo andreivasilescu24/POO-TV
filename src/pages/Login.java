@@ -1,7 +1,6 @@
 package pages;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import input.data.Movie;
 import platform.Platform;
 import input.data.Action;
 import input.data.Credentials;

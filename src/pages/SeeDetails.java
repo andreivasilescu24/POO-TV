@@ -30,6 +30,12 @@ public final class SeeDetails extends GeneralPage
 
     private String actualMovieName;
 
+    /**
+     * @param actions  action array given as input
+     * @param platform the platform which contains all the possible pages
+     *
+     * interpretor for the actions given as input when the user is on see details page
+     */
     public void seeDetailsActionInterpretor(final ArrayList<Action> actions,
                                             final Platform platform) {
         platform.updateActions(actions);
@@ -149,13 +155,11 @@ public final class SeeDetails extends GeneralPage
             }
         }
 
-        if (alreadyPurchased == true) {
+        if (alreadyPurchased) {
             platform.throwError();
             platform.setError(null);
             returnToSeeDetailsPage(actions, platform);
-        }
-
-        if (!alreadyPurchased) {
+        } else {
 
             for (Movie movie : platform.getCurrentMoviesList()) {
                 if (movie.getName().equals(actualMovieName)) {
@@ -190,7 +194,8 @@ public final class SeeDetails extends GeneralPage
                     if (updatedUser.getNumFreePremiumMovies() == 0) {
                         updatedUser.setTokensCount(updatedUser.getTokensCount() - 2);
                     } else {
-                        updatedUser.setNumFreePremiumMovies(updatedUser.getNumFreePremiumMovies() - 1);
+                        updatedUser
+                                .setNumFreePremiumMovies(updatedUser.getNumFreePremiumMovies() - 1);
                     }
 
                 } else if (getCurrentUser().getCredentials().getAccountType().equals("standard")) {
@@ -378,7 +383,8 @@ public final class SeeDetails extends GeneralPage
                 if (alreadyRated) {
                     int ratingUserIndex = 0;
                     for (Credentials userCredentials : newRatingUsersArray) {
-                        if (userCredentials.getName().equals(getCurrentUser().getCredentials().getName())
+                        if (userCredentials.getName().equals(getCurrentUser()
+                                .getCredentials().getName())
                                 && userCredentials.getPassword().equals(getCurrentUser()
                                 .getCredentials().getPassword())) {
                             break;
@@ -439,9 +445,12 @@ public final class SeeDetails extends GeneralPage
                         .build();
 
                 platform.updateUser(updatedUser);
-                platform.updateArrayOfMovies(platform.getCurrentMoviesList(), updatedUser.getPurchasedMovies());
-                platform.updateArrayOfMovies(platform.getCurrentMoviesList(), updatedUser.getWatchedMovies());
-                platform.updateArrayOfMovies(platform.getCurrentMoviesList(), updatedUser.getLikedMovies());
+                platform.updateArrayOfMovies(platform.getCurrentMoviesList(),
+                        updatedUser.getPurchasedMovies());
+                platform.updateArrayOfMovies(platform.getCurrentMoviesList(),
+                        updatedUser.getWatchedMovies());
+                platform.updateArrayOfMovies(platform.getCurrentMoviesList(),
+                        updatedUser.getLikedMovies());
 
                 ArrayList<Movie> outputMovie = new ArrayList<>();
                 outputMovie.add(updatedMovie);

@@ -6,10 +6,10 @@ import input.data.Movie;
 import java.util.ArrayList;
 import java.util.Collections;
 
-public class SortFilter implements StrategyFilter {
+public final class SortFilter implements StrategyFilter {
 
     @Override
-    public void filter(ArrayList<Movie> movieList, Action actualAction) {
+    public void filter(final ArrayList<Movie> movieList, final Action actualAction) {
         String durationSortingOrder = actualAction.getFilters().getSort().getDuration();
         String ratingSortingOrder = actualAction.getFilters().getSort().getRating();
 

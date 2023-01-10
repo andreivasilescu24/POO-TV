@@ -6,9 +6,9 @@ import input.data.Movie;
 
 import java.util.ArrayList;
 
-public class ContainsFilter implements StrategyFilter {
+public final class ContainsFilter implements StrategyFilter {
     @Override
-    public void filter(ArrayList<Movie> movieList, Action actualAction) {
+    public void filter(final ArrayList<Movie> movieList, final Action actualAction) {
         Contains contains = actualAction.getFilters().getContains();
         ArrayList<Movie> filteredMovies = new ArrayList<>();
         filteredMovies.addAll(movieList);

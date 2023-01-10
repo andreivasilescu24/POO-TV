@@ -98,7 +98,7 @@ public final class Upgrades extends GeneralPage
 
                     if (actualAction.getPage().equals("movies")) {
                         platform.getMovies().accept(this, actions, platform);
-                    } else if(actualAction.getPage().equals("logout")) {
+                    } else if (actualAction.getPage().equals("logout")) {
                         platform.getLogout().accept(this, actions, platform);
                     }
                 } else {
@@ -106,7 +106,7 @@ public final class Upgrades extends GeneralPage
                     platform.setError(null);
                     returnToUpgradesPage(actions, platform);
                 }
-            } else if(actualAction.getType().equals("back")) {
+            } else if (actualAction.getType().equals("back")) {
                 String backPage = platform.getPagesStack()
                         .get(platform.getPagesStack().size() - 1);
 
@@ -114,10 +114,10 @@ public final class Upgrades extends GeneralPage
                     platform.getPagesStack().remove(platform.getPagesStack().size() - 1);
                     platform.getHomepageAuthentified()
                             .homepageAuthentifiedActionInterpretor(actions, platform);
-                } else if(backPage.equals("Movies")) {
+                } else if (backPage.equals("Movies")) {
                     platform.getPagesStack().remove(platform.getPagesStack().size() - 1);
                     platform.getMovies().accept(this, actions, platform);
-                } else if(backPage.equals("See Details")) {
+                } else if (backPage.equals("See Details")) {
                     platform.getPagesStack().remove(platform.getPagesStack().size() - 1);
                     platform.getSeeDetails().seeDetailsActionInterpretor(actions, platform);
                 }

@@ -12,7 +12,6 @@ import visitable.interfaces.VisitableMovies;
 import visitor.interfaces.VisitorMovies;
 
 import java.util.ArrayList;
-import java.util.Collections;
 
 public final class Movies extends GeneralPage implements VisitorMovies, VisitableMovies {
     @JsonIgnore
@@ -97,15 +96,15 @@ public final class Movies extends GeneralPage implements VisitorMovies, Visitabl
 
                     if (backPage.equals("HomepageAuthentified")) {
                         platform.getPagesStack().remove(platform.getPagesStack().size() - 1);
-                        platform.getHomepageAuthentified().homepageAuthentifiedActionInterpretor(actions, platform);
+                        platform.getHomepageAuthentified()
+                                .homepageAuthentifiedActionInterpretor(actions, platform);
                     } else if (backPage.equals("See Details")) {
                         platform.getPagesStack().remove(platform.getPagesStack().size() - 1);
                         platform.getSeeDetails().seeDetailsActionInterpretor(actions, platform);
-                    } else if(backPage.equals("Upgrades")) {
+                    } else if (backPage.equals("Upgrades")) {
                         platform.getPagesStack().remove(platform.getPagesStack().size() - 1);
                         platform.getUpgrades().upgradesActionInterpretor(actions, platform);
-                    }
-                    else {
+                    } else {
                         platform.throwError();
                         platform.setError(null);
                         returnToMoviesPage(actions, platform);
@@ -115,6 +114,12 @@ public final class Movies extends GeneralPage implements VisitorMovies, Visitabl
         }
     }
 
+    /**
+     * @param actions  array of actions given as input
+     * @param platform the platform which contains all the possible pages
+     *                 <p>
+     *                 executes the "search" on page action
+     */
     public void search(final ArrayList<Action> actions, final Platform platform) {
         Action actualAction = actions.get(0);
         String searchString = actualAction.getStartsWith();
@@ -133,6 +138,14 @@ public final class Movies extends GeneralPage implements VisitorMovies, Visitabl
         returnToMoviesPage(actions, platform);
     }
 
+    /**
+     * @param actions  array of actions given as input
+     * @param platform the platform which contains all the possible pages
+     *                 <p>
+     *                 executes the "filter" on page action by using the strategy
+     *                 pattern, depending on the type of filters (contains, sort or
+     *                 contains + sort)
+     */
     public void filter(final ArrayList<Action> actions, final Platform platform) {
         Action actualAction = actions.get(0);
 
@@ -140,39 +153,17 @@ public final class Movies extends GeneralPage implements VisitorMovies, Visitabl
         Sort sort = actualAction.getFilters().getSort();
 
         ArrayList<Movie> filteredMovies = new ArrayList<>();
-//        filteredMovies.addAll(platform.getCurrentMoviesList());
 
         if (contains != null) {
-//            if (contains.getActors() != null) {
-//                ArrayList<String> actors = contains.getActors();
-//                filteredMovies.removeIf(movie -> !containsActors(movie, actors));
-//            }
-//
-//            if (contains.getGenre() != null) {
-//                ArrayList<String> genres = contains.getGenre();
-//                filteredMovies.removeIf(movie -> !containsGenre(movie, genres));
-//            }
             ContainsFilter containsFilter = new ContainsFilter();
             containsFilter.filter(platform.getCurrentMoviesList(), actualAction);
-
         }
 
         if (sort != null) {
-//            String durationSortingOrder = actualAction.getFilters().getSort().getDuration();
-//            String ratingSortingOrder = actualAction.getFilters().getSort().getRating();
-//
-//            for (Movie movie : filteredMovies) {
-//                movie.setDurationSortingOrder(durationSortingOrder);
-//                movie.setRatingSortingOrder(ratingSortingOrder);
-//            }
-//
-//            Collections.sort(filteredMovies);
             SortFilter sortFilter = new SortFilter();
             sortFilter.filter(platform.getCurrentMoviesList(), actualAction);
         }
 
-//        platform.getCurrentMoviesList().clear();
-//        platform.getCurrentMoviesList().addAll(filteredMovies);
         filteredMovies.addAll(platform.getCurrentMoviesList());
 
         platform.getOutput().addObject().put("error", platform.getError())
@@ -182,30 +173,13 @@ public final class Movies extends GeneralPage implements VisitorMovies, Visitabl
         returnToMoviesPage(actions, platform);
     }
 
-    public boolean containsActors(final Movie movie, final ArrayList<String> actors) {
-        ArrayList<String> movieActors = movie.getActors();
-
-        for (String searchActor : actors) {
-            if (!movieActors.contains(searchActor)) {
-                return false;
-            }
-        }
-
-        return true;
-    }
-
-    public boolean containsGenre(final Movie movie, final ArrayList<String> genres) {
-        ArrayList<String> movieGenres = movie.getGenres();
-
-        for (String searchGenre : genres) {
-            if (!movieGenres.contains(searchGenre)) {
-                return false;
-            }
-        }
-
-        return true;
-    }
-
+    /**
+     *
+     * @param actions array of actions given as input
+     * @param platform the platform which contains all the possible pages
+     *
+     *                 restarts the interpretation of actions from the movies interpretor
+     */
     public void returnToMoviesPage(final ArrayList<Action> actions, final Platform platform) {
         moviesActionInterpretor(actions, platform);
     }

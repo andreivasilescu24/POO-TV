@@ -2,11 +2,22 @@ package platform;
 
 import input.data.*;
 
-import pages.*;
+import pages.HomepageNotAuthentified;
+import pages.HomepageAuthentified;
+import pages.Movies;
+import pages.Register;
+import pages.Login;
+import pages.Logout;
+import pages.SeeDetails;
+import pages.Upgrades;
 
 import com.fasterxml.jackson.databind.node.ArrayNode;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.TreeMap;
+import java.util.Map;
+import java.util.LinkedHashMap;
 
 public final class Platform {
     private Input inputData = new Input();
@@ -90,7 +101,15 @@ public final class Platform {
         actions.addAll(actionsAux);
     }
 
-    public Notification getRecommendation(ArrayList<Movie> movieDatabase, User currentUser) {
+    /**
+     *
+     * @param movieDatabase movies which the user has access to
+     * @param currentUser current user of the platform
+     * @return the notification which contains the correct recommendation based on the
+     *         presented algorithm
+     */
+    public Notification getRecommendation(final ArrayList<Movie> movieDatabase,
+                                          final User currentUser) {
         Notification notification = new Notification();
         notification.setMessage("Recommendation");
 
@@ -190,6 +209,10 @@ public final class Platform {
 
     }
 
+    /**
+     * this function is executed when all the actions have been executed to give the user
+     * a recommendation
+     */
     public void handleEmptyActions() {
         User currentUser = getHomepageAuthentified().getCurrentUser();
         ArrayList<Notification> notificationArrayList = new ArrayList<>();
@@ -197,7 +220,8 @@ public final class Platform {
         ArrayList<Movie> movieDatabase = inputData.getMovies();
         getHomepageAuthentified().addPermittedMovies(movieDatabase, this);
 
-        if (currentUser != null && currentUser.getCredentials().getAccountType().equals("premium")) {
+        if (currentUser != null
+                && currentUser.getCredentials().getAccountType().equals("premium")) {
 
             Notification notification = getRecommendation(getCurrentMoviesList(), currentUser);
 
@@ -245,7 +269,15 @@ public final class Platform {
 
     }
 
-    public void updateArrayOfMovies(final ArrayList<Movie> movieDatabase, final ArrayList<Movie> movieArray) {
+    /**
+     *
+     * @param movieDatabase database of movies
+     * @param movieArray specific array
+     *                   updates the movies in the array if some changes
+     *                   were made in the database
+     */
+    public void updateArrayOfMovies(final ArrayList<Movie> movieDatabase,
+                                    final ArrayList<Movie> movieArray) {
         for (Movie movie : movieDatabase) {
             int index = 0;
             for (Movie searchMovie : movieArray) {
@@ -297,7 +329,13 @@ public final class Platform {
 
     }
 
-    public boolean databaseAdd(ArrayList<Action> actions) {
+    /**
+     *
+     * @param actions array of actions given as input
+     * @return true - if the movie was added in the database successfully
+     *         false - otherwise
+     */
+    public boolean databaseAdd(final ArrayList<Action> actions) {
         Movie addedMovie = actions.get(0).getAddedMovie();
         ArrayList<Movie> movieDatabase = inputData.getMovies();
 
@@ -314,7 +352,12 @@ public final class Platform {
         return true;
     }
 
-    public void databaseDelete(ArrayList<Action> actions) {
+    /**
+     *
+     * @param actions array of actions given as input
+     *                deletes the movie from the database
+     */
+    public void databaseDelete(final ArrayList<Action> actions) {
         String deletedMovie = actions.get(0).getDeletedMovie();
         ArrayList<Movie> movieDatabase = inputData.getMovies();
         boolean exists = false;
@@ -326,7 +369,7 @@ public final class Platform {
             }
         }
 
-        if (exists == false) {
+        if (!exists) {
             throwError();
             setError(null);
             return;
@@ -336,7 +379,13 @@ public final class Platform {
         homepageAuthentified.addPermittedMovies(movieDatabase, this);
     }
 
-    public void notifyAdd(ArrayList<Action> actions) {
+    /**
+     *
+     * @param actions array of actions given as input
+     *                notifies all the users when a movie is added, if the
+     *                user subscribed to a genre that the movie contains
+     */
+    public void notifyAdd(final ArrayList<Action> actions) {
         Movie movie = actions.get(0).getAddedMovie();
         String addedMovieName = movie.getName();
 
@@ -399,8 +448,11 @@ public final class Platform {
 
     }
 
+    /**
+     * platform is initialized by starting interpreting actions from the HomepageNotAuthentified page
+     */
     public void initPlatform() {
-        ((HomepageNotAuthentified) homepageNotAuthentified).returnToHomepageNotAuthentified(inputData.getActions(), this);
+        homepageNotAuthentified.returnToHomepageNotAuthentified(inputData.getActions(), this);
     }
 
     public Input getInputData() {
@@ -511,7 +563,7 @@ public final class Platform {
         this.emptyMovies = emptyMovies;
     }
 
-    public void setPagesStack(ArrayList<String> pagesStack) {
+    public void setPagesStack(final ArrayList<String> pagesStack) {
         this.pagesStack = pagesStack;
     }
 }

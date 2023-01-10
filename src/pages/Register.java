@@ -51,7 +51,8 @@ public final class Register extends GeneralPage
                         .returnToHomepageNotAuthentified(actions, platform);
             } else if (actualAction.getType().equals("on page")) {
                 if (actualAction.getFeature().equals("register")) {
-                    boolean isRegisterSuccessful = register(actualAction.getCredentials(), platform);
+                    boolean isRegisterSuccessful =
+                            register(actualAction.getCredentials(), platform);
                     if (isRegisterSuccessful) {
                         platform.getHomepageAuthentified().accept(this, actions, platform);
                     } else {

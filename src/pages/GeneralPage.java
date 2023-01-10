@@ -5,7 +5,7 @@ import input.data.User;
 
 import java.util.ArrayList;
 
-public class GeneralPage {
+public abstract class GeneralPage {
     @JsonIgnore
     private ArrayList<String> permissions = new ArrayList<>();
     private User currentUser;

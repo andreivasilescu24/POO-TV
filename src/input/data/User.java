@@ -18,7 +18,7 @@ public final class User {
     @JsonIgnore
     private ArrayList<String> subscribedGenres = new ArrayList<>();
 
-    public final static class Builder {
+    public static final class Builder {
         private Credentials credentials;
         private int tokensCount;
         private int numFreePremiumMovies;
@@ -33,53 +33,110 @@ public final class User {
             this.credentials = new Credentials(credentials);
         }
 
-        public Builder tokensCount(final int tokensCount) {
-            this.tokensCount = tokensCount;
+        /**
+         *
+         * @param tokensNumber the value which will be assigned to the Builder's
+         *                     "tokensCount" field
+         * @return the Builder object with the "tokensCount" field set
+         */
+        public Builder tokensCount(final int tokensNumber) {
+            tokensCount = tokensNumber;
             return this;
         }
 
-        public Builder numFreePremiumMovies(final int numFreePremiumMovies) {
-            this.numFreePremiumMovies = numFreePremiumMovies;
+        /**
+         *
+         * @param numberFreePremiumMovies the value which
+         *                                will be assigned to the Builder's
+         *                                numFreePremiumMovies field
+         * @return the Builder object with the "numFreePremiumMovies" field set
+         */
+        public Builder numFreePremiumMovies(final int numberFreePremiumMovies) {
+            numFreePremiumMovies = numberFreePremiumMovies;
             return this;
         }
 
-        public Builder purchasedMovies(final ArrayList<Movie> purchasedMovies) {
-            this.purchasedMovies.addAll(purchasedMovies);
+        /**
+         *
+         * @param userPurchasedMovies the array of purchasedMovies which will be copied
+         *                            into the "purchasedMovies" array, which is a field
+         *                            of this class
+         * @return the Builder object with the "purchasedMovies" field set
+         */
+        public Builder purchasedMovies(final ArrayList<Movie> userPurchasedMovies) {
+            purchasedMovies.addAll(userPurchasedMovies);
             return this;
         }
 
-        public Builder watchedMovies(final ArrayList<Movie> watchedMovies) {
-            this.watchedMovies.addAll(watchedMovies);
+        /**
+         *
+         * @param userWatchedMovies the array of watchedMovies which will be copied
+         *                          into the "watchedMovies" array, which is a field
+         *                          of this class
+         * @return the Builder object with the "watchedMovies" field set
+         */
+        public Builder watchedMovies(final ArrayList<Movie> userWatchedMovies) {
+            watchedMovies.addAll(userWatchedMovies);
             return this;
         }
 
-        public Builder likedMovies(final ArrayList<Movie> likedMovies) {
-            this.likedMovies.addAll(likedMovies);
+        /**
+         *
+         * @param userLikedMovies the array of likedMovies which will be copied
+         *                        into the "likedMovies" array, which is a field
+         *                        of this class
+         * @return the Builder object with the "likedMovies" field set
+         */
+        public Builder likedMovies(final ArrayList<Movie> userLikedMovies) {
+            likedMovies.addAll(userLikedMovies);
             return this;
         }
 
-        public Builder ratedMovies(final ArrayList<Movie> ratedMovies) {
-            this.ratedMovies.addAll(ratedMovies);
+        /**
+         *
+         * @param userRatedMovies the array of ratedMovies which will be copied
+         *                        into the "ratedMovies" array, which is a field
+         *                        of this class
+         * @return the Builder object with the "ratedMovies" field set
+         */
+        public Builder ratedMovies(final ArrayList<Movie> userRatedMovies) {
+            ratedMovies.addAll(userRatedMovies);
             return this;
         }
 
-        public Builder notifications(final ArrayList<Notification> notifications) {
-            this.notifications.addAll(notifications);
+        /**
+         *
+         * @param userNotifications the array of notifications which will be copied
+         *                          into the "notifications" array, which is a field
+         *                          of this class
+         * @return the Builder object with the "notifications" field set
+         */
+        public Builder notifications(final ArrayList<Notification> userNotifications) {
+            notifications.addAll(userNotifications);
             return this;
         }
 
-        public Builder subscribedGenres(final ArrayList<String> subscribedGenres) {
-            this.subscribedGenres.addAll(subscribedGenres);
+        /**
+         *
+         * @param userSubscribedGenres
+         * @return
+         */
+        public Builder subscribedGenres(final ArrayList<String> userSubscribedGenres) {
+            subscribedGenres.addAll(userSubscribedGenres);
             return this;
         }
 
+        /**
+         *
+         * @return new built user based on the fields of the Builder object
+         */
         public User build() {
             return new User(this);
         }
 
     }
 
-    private User(Builder builder) {
+    private User(final Builder builder) {
         this.credentials = builder.credentials;
         this.tokensCount = builder.tokensCount;
         this.numFreePremiumMovies = builder.numFreePremiumMovies;
@@ -93,23 +150,6 @@ public final class User {
 
     public User() {
         numFreePremiumMovies = startingPremiumMoviesNumber;
-    }
-
-    public User(final Credentials credentials, final int tokensCount,
-                final int numFreePremiumMovies, final ArrayList<Movie> purchasedMovies,
-                final ArrayList<Movie> watchedMovies, final ArrayList<Movie> likedMovies,
-                final ArrayList<Movie> ratedMovies, final ArrayList<Notification> notifications,
-                final ArrayList<String> subscribedGenres) {
-
-        this.credentials = new Credentials(credentials);
-        this.tokensCount = tokensCount;
-        this.numFreePremiumMovies = numFreePremiumMovies;
-        this.purchasedMovies.addAll(purchasedMovies);
-        this.watchedMovies.addAll(watchedMovies);
-        this.likedMovies.addAll(likedMovies);
-        this.ratedMovies.addAll(ratedMovies);
-        this.notifications.addAll(notifications);
-        this.subscribedGenres.addAll(subscribedGenres);
     }
 
     public ArrayList<String> getSubscribedGenres() {
@@ -164,7 +204,7 @@ public final class User {
         this.numFreePremiumMovies = numFreePremiumMovies;
     }
 
-    public void setSubscribedGenres(ArrayList<String> subscribedGenres) {
+    public void setSubscribedGenres(final ArrayList<String> subscribedGenres) {
         this.subscribedGenres = subscribedGenres;
     }
 
@@ -184,7 +224,7 @@ public final class User {
         this.ratedMovies = ratedMovies;
     }
 
-    public void setNotifications(ArrayList<Notification> notifications) {
+    public void setNotifications(final ArrayList<Notification> notifications) {
         this.notifications = notifications;
     }
 }
