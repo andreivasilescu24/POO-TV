@@ -1,6 +1,6 @@
 package input.data;
 
-public class Notification {
+public final class Notification {
     private String movieName;
     private String message;
 
@@ -8,7 +8,7 @@ public class Notification {
         return movieName;
     }
 
-    public void setMovieName(String movieName) {
+    public void setMovieName(final String movieName) {
         this.movieName = movieName;
     }
 
@@ -16,7 +16,7 @@ public class Notification {
         return message;
     }
 
-    public void setMessage(String message) {
+    public void setMessage(final String message) {
         this.message = message;
     }
 }

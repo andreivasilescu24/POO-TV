@@ -15,7 +15,7 @@ public final class Movie implements Comparable<Movie> {
     private int numRatings;
     private double rating;
     @JsonIgnore
-    boolean byLikes;
+    private boolean byLikes;
     @JsonIgnore
     private String durationSortingOrder;
     @JsonIgnore
@@ -115,7 +115,7 @@ public final class Movie implements Comparable<Movie> {
         this.numLikes = numLikes;
     }
 
-    public void setByLikes(boolean byLikes) {
+    public void setByLikes(final boolean byLikes) {
         this.byLikes = byLikes;
     }
 
@@ -151,7 +151,7 @@ public final class Movie implements Comparable<Movie> {
         this.countriesBanned = countriesBanned;
     }
 
-    public void setRatingUsers(ArrayList<Credentials> ratingUsers) {
+    public void setRatingUsers(final ArrayList<Credentials> ratingUsers) {
         this.ratingUsers = ratingUsers;
     }
 
@@ -165,7 +165,7 @@ public final class Movie implements Comparable<Movie> {
 
     @Override
     public int compareTo(final Movie movie) {
-        if (byLikes == true) {
+        if (byLikes) {
             if (numLikes > movie.getNumLikes()) {
                 return -1;
             } else if (numLikes < movie.getNumLikes()) {

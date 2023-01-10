@@ -71,7 +71,7 @@ public final class Action {
         this.movie = movie;
     }
 
-    public void setSubscribedGenre(String subscribedGenre) {
+    public void setSubscribedGenre(final String subscribedGenre) {
         this.subscribedGenre = subscribedGenre;
     }
 
@@ -111,11 +111,11 @@ public final class Action {
         this.rate = rate;
     }
 
-    public void setAddedMovie(Movie addedMovie) {
+    public void setAddedMovie(final Movie addedMovie) {
         this.addedMovie = addedMovie;
     }
 
-    public void setDeletedMovie(String deletedMovie) {
+    public void setDeletedMovie(final String deletedMovie) {
         this.deletedMovie = deletedMovie;
     }
 }

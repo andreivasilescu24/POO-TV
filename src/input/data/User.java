@@ -18,7 +18,7 @@ public final class User {
     @JsonIgnore
     private ArrayList<String> subscribedGenres = new ArrayList<>();
 
-    public static class Builder {
+    public final static class Builder {
         private Credentials credentials;
         private int tokensCount;
         private int numFreePremiumMovies;
@@ -29,38 +29,46 @@ public final class User {
         private ArrayList<Notification> notifications = new ArrayList<>();
         private ArrayList<String> subscribedGenres = new ArrayList<>();
 
-        public Builder (Credentials credentials) {
+        public Builder(final Credentials credentials) {
             this.credentials = new Credentials(credentials);
         }
-        public Builder tokensCount(int tokensCount) {
+
+        public Builder tokensCount(final int tokensCount) {
             this.tokensCount = tokensCount;
             return this;
         }
-        public Builder numFreePremiumMovies(int numFreePremiumMovies) {
+
+        public Builder numFreePremiumMovies(final int numFreePremiumMovies) {
             this.numFreePremiumMovies = numFreePremiumMovies;
             return this;
         }
-        public Builder purchasedMovies(ArrayList<Movie> purchasedMovies) {
+
+        public Builder purchasedMovies(final ArrayList<Movie> purchasedMovies) {
             this.purchasedMovies.addAll(purchasedMovies);
             return this;
         }
-        public Builder watchedMovies(ArrayList<Movie> watchedMovies) {
+
+        public Builder watchedMovies(final ArrayList<Movie> watchedMovies) {
             this.watchedMovies.addAll(watchedMovies);
             return this;
         }
-        public Builder likedMovies(ArrayList<Movie> likedMovies) {
+
+        public Builder likedMovies(final ArrayList<Movie> likedMovies) {
             this.likedMovies.addAll(likedMovies);
             return this;
         }
-        public Builder ratedMovies(ArrayList<Movie> ratedMovies) {
+
+        public Builder ratedMovies(final ArrayList<Movie> ratedMovies) {
             this.ratedMovies.addAll(ratedMovies);
             return this;
         }
-        public Builder notifications(ArrayList<Notification> notifications) {
+
+        public Builder notifications(final ArrayList<Notification> notifications) {
             this.notifications.addAll(notifications);
             return this;
         }
-        public Builder subscribedGenres(ArrayList<String> subscribedGenres) {
+
+        public Builder subscribedGenres(final ArrayList<String> subscribedGenres) {
             this.subscribedGenres.addAll(subscribedGenres);
             return this;
         }
@@ -82,6 +90,7 @@ public final class User {
         this.notifications = builder.notifications;
         this.subscribedGenres = builder.subscribedGenres;
     }
+
     public User() {
         numFreePremiumMovies = startingPremiumMoviesNumber;
     }
