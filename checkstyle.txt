@@ -4,7 +4,7 @@ Starting audit...
 [ERROR] F:\Andrei\ANUL II\Semestrul I\POO\Proiect2---POO\.\src\pages\HomepageNotAuthentified.java:20:5: Missing a Javadoc comment. [MissingJavadocMethod]
 [ERROR] F:\Andrei\ANUL II\Semestrul I\POO\Proiect2---POO\.\src\pages\Login.java:21:5: Missing a Javadoc comment. [MissingJavadocMethod]
 [ERROR] F:\Andrei\ANUL II\Semestrul I\POO\Proiect2---POO\.\src\pages\Logout.java:19:5: Missing a Javadoc comment. [MissingJavadocMethod]
-[ERROR] F:\Andrei\ANUL II\Semestrul I\POO\Proiect2---POO\.\src\pages\Movies.java:24:5: Missing a Javadoc comment. [MissingJavadocMethod]
+[ERROR] F:\Andrei\ANUL II\Semestrul I\POO\Proiect2---POO\.\src\pages\Movies.java:25:5: Missing a Javadoc comment. [MissingJavadocMethod]
 [ERROR] F:\Andrei\ANUL II\Semestrul I\POO\Proiect2---POO\.\src\pages\Register.java:22:5: Missing a Javadoc comment. [MissingJavadocMethod]
 [ERROR] F:\Andrei\ANUL II\Semestrul I\POO\Proiect2---POO\.\src\pages\SeeDetails.java:23:5: Missing a Javadoc comment. [MissingJavadocMethod]
 [ERROR] F:\Andrei\ANUL II\Semestrul I\POO\Proiect2---POO\.\src\pages\SeeDetails.java:106:5: Missing a Javadoc comment. [MissingJavadocMethod]
