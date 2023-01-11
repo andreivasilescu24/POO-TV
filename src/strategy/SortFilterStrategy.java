@@ -6,7 +6,7 @@ import input.data.Movie;
 import java.util.ArrayList;
 import java.util.Collections;
 
-public final class SortFilter implements StrategyFilter {
+public final class SortFilterStrategy implements StrategyFilter {
 
     @Override
     public void filter(final ArrayList<Movie> movieList, final Action actualAction) {

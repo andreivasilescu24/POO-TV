@@ -102,11 +102,10 @@ public final class Platform {
     }
 
     /**
-     *
      * @param movieDatabase movies which the user has access to
-     * @param currentUser current user of the platform
+     * @param currentUser   current user of the platform
      * @return the notification which contains the correct recommendation based on the
-     *         presented algorithm
+     * presented algorithm
      */
     public Notification getRecommendation(final ArrayList<Movie> movieDatabase,
                                           final User currentUser) {
@@ -270,11 +269,10 @@ public final class Platform {
     }
 
     /**
-     *
      * @param movieDatabase database of movies
-     * @param movieArray specific array
-     *                   updates the movies in the array if some changes
-     *                   were made in the database
+     * @param movieArray    specific array
+     *                      updates the movies in the array if some changes
+     *                      were made in the database
      */
     public void updateArrayOfMovies(final ArrayList<Movie> movieDatabase,
                                     final ArrayList<Movie> movieArray) {
@@ -330,10 +328,9 @@ public final class Platform {
     }
 
     /**
-     *
      * @param actions array of actions given as input
      * @return true - if the movie was added in the database successfully
-     *         false - otherwise
+     * false - otherwise
      */
     public boolean databaseAdd(final ArrayList<Action> actions) {
         Movie addedMovie = actions.get(0).getAddedMovie();
@@ -353,9 +350,10 @@ public final class Platform {
     }
 
     /**
-     *
      * @param actions array of actions given as input
      *                deletes the movie from the database
+     *                deletes all the appearances of the specified movie from all the users and arrays
+     *                and also notifies the users that have purchased the movie about the deletion
      */
     public void databaseDelete(final ArrayList<Action> actions) {
         String deletedMovie = actions.get(0).getDeletedMovie();
@@ -376,11 +374,82 @@ public final class Platform {
         }
 
         movieDatabase.removeIf(movie -> movie.getName().equals(deletedMovie));
+
+        ArrayList<User> newUserDatabase = new ArrayList<>();
+
+        for (User user : getInputData().getUsers()) {
+            boolean wasPurchased = false;
+
+            ArrayList<Movie> purchasedMovies = new ArrayList<>();
+            ArrayList<Movie> watchedMovies = new ArrayList<>();
+            ArrayList<Movie> likedMovies = new ArrayList<>();
+            ArrayList<Movie> ratedMovies = new ArrayList<>();
+
+            purchasedMovies.addAll(user.getPurchasedMovies());
+            watchedMovies.addAll(user.getWatchedMovies());
+            likedMovies.addAll(user.getLikedMovies());
+            ratedMovies.addAll(user.getRatedMovies());
+
+            wasPurchased = purchasedMovies.removeIf(movie -> movie.getName().equals(deletedMovie));
+
+            if (wasPurchased) {
+                boolean wasWatched = false;
+                wasWatched = watchedMovies.removeIf(movie -> movie.getName().equals(deletedMovie));
+
+                if (wasWatched) {
+                    likedMovies.removeIf(movie -> movie.getName().equals(deletedMovie));
+                    ratedMovies.removeIf(movie -> movie.getName().equals(deletedMovie));
+                }
+
+                Notification notification = new Notification();
+                notification.setMessage("DELETE");
+                notification.setMovieName(deletedMovie);
+
+                ArrayList<Notification> notificationArrayList = new ArrayList<>();
+                notificationArrayList.addAll(user.getNotifications());
+                notificationArrayList.add(notification);
+
+                User updatedUser = new User.Builder(user.getCredentials())
+                        .tokensCount(user.getTokensCount())
+                        .numFreePremiumMovies(user.getNumFreePremiumMovies())
+                        .purchasedMovies(purchasedMovies)
+                        .watchedMovies(watchedMovies)
+                        .likedMovies(likedMovies)
+                        .ratedMovies(ratedMovies)
+                        .notifications(notificationArrayList)
+                        .subscribedGenres(user.getSubscribedGenres())
+                        .build();
+
+                if (updatedUser.getCredentials().getAccountType().equals("premium")) {
+                    updatedUser.setNumFreePremiumMovies(updatedUser.getNumFreePremiumMovies() + 1);
+                } else {
+                    updatedUser.setTokensCount(updatedUser.getTokensCount() + 2);
+                }
+
+                newUserDatabase.add(updatedUser);
+            }
+        }
+
+        for (User user : newUserDatabase) {
+            if (getHomepageAuthentified().getCurrentUser().getCredentials()
+                    .getName().equals(user.getCredentials().getName())
+                    && getHomepageAuthentified().getCurrentUser().getCredentials()
+                    .getPassword().equals(user.getCredentials().getPassword())) {
+
+                updateUser(user);
+            } else {
+                inputData.getUsers().removeIf(searchUser -> searchUser.getCredentials().getName()
+                        .equals(user.getCredentials().getName()) && searchUser.getCredentials()
+                        .getPassword().equals(user.getCredentials().getPassword()));
+
+                inputData.getUsers().add(user);
+            }
+        }
+
         homepageAuthentified.addPermittedMovies(movieDatabase, this);
     }
 
     /**
-     *
      * @param actions array of actions given as input
      *                notifies all the users when a movie is added, if the
      *                user subscribed to a genre that the movie contains
@@ -425,25 +494,26 @@ public final class Platform {
                             .subscribedGenres(user.getSubscribedGenres())
                             .build();
 
-                    if (getHomepageAuthentified().getCurrentUser().getCredentials()
-                            .getName().equals(updatedUser.getCredentials().getName())
-                            && getHomepageAuthentified().getCurrentUser().getCredentials()
-                            .getPassword().equals(updatedUser.getCredentials().getPassword())) {
-
-                        updateUser(updatedUser);
-                    }
-
                     newUserDatabase.add(updatedUser);
                 }
             }
         }
 
         for (User user : newUserDatabase) {
-            inputData.getUsers().removeIf(searchUser -> searchUser.getCredentials().getName()
-                    .equals(user.getCredentials().getName()) && searchUser.getCredentials()
-                    .getPassword().equals(user.getCredentials().getPassword()));
+            if (getHomepageAuthentified().getCurrentUser().getCredentials()
+                    .getName().equals(user.getCredentials().getName())
+                    && getHomepageAuthentified().getCurrentUser().getCredentials()
+                    .getPassword().equals(user.getCredentials().getPassword())) {
 
-            inputData.getUsers().add(user);
+                updateUser(user);
+            } else {
+                inputData.getUsers().removeIf(searchUser -> searchUser.getCredentials().getName()
+                        .equals(user.getCredentials().getName()) && searchUser.getCredentials()
+                        .getPassword().equals(user.getCredentials().getPassword()));
+
+                inputData.getUsers().add(user);
+            }
+
         }
 
     }

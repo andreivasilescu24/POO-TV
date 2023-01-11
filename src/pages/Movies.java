@@ -6,8 +6,8 @@ import input.data.Contains;
 import input.data.Movie;
 import input.data.Sort;
 import platform.Platform;
-import strategy.ContainsFilter;
-import strategy.SortFilter;
+import strategy.ContainsFilterStrategy;
+import strategy.SortFilterStrategy;
 import visitable.interfaces.VisitableMovies;
 import visitor.interfaces.VisitorMovies;
 
@@ -155,12 +155,12 @@ public final class Movies extends GeneralPage implements VisitorMovies, Visitabl
         ArrayList<Movie> filteredMovies = new ArrayList<>();
 
         if (contains != null) {
-            ContainsFilter containsFilter = new ContainsFilter();
+            ContainsFilterStrategy containsFilter = new ContainsFilterStrategy();
             containsFilter.filter(platform.getCurrentMoviesList(), actualAction);
         }
 
         if (sort != null) {
-            SortFilter sortFilter = new SortFilter();
+            SortFilterStrategy sortFilter = new SortFilterStrategy();
             sortFilter.filter(platform.getCurrentMoviesList(), actualAction);
         }
 

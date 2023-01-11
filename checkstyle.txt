@@ -17,11 +17,12 @@ Starting audit...
 [ERROR] F:\Andrei\ANUL II\Semestrul I\POO\Proiect2---POO\.\src\pages\Upgrades.java:21:5: Missing a Javadoc comment. [MissingJavadocMethod]
 [ERROR] F:\Andrei\ANUL II\Semestrul I\POO\Proiect2---POO\.\src\platform\Platform.java:3:18: Using the '.*' form of import should be avoided - input.data.*. [AvoidStarImport]
 [ERROR] F:\Andrei\ANUL II\Semestrul I\POO\Proiect2---POO\.\src\platform\Platform.java:43:5: Missing a Javadoc comment. [MissingJavadocMethod]
-[ERROR] F:\Andrei\ANUL II\Semestrul I\POO\Proiect2---POO\.\src\platform\Platform.java:452: Line is longer than 100 characters (found 101). [LineLength]
+[ERROR] F:\Andrei\ANUL II\Semestrul I\POO\Proiect2---POO\.\src\platform\Platform.java:355: Line is longer than 100 characters (found 102). [LineLength]
+[ERROR] F:\Andrei\ANUL II\Semestrul I\POO\Proiect2---POO\.\src\platform\Platform.java:522: Line is longer than 100 characters (found 101). [LineLength]
 [ERROR] F:\Andrei\ANUL II\Semestrul I\POO\Proiect2---POO\.\src\Test.java:1: File does not end with a newline. [NewlineAtEndOfFile]
 [ERROR] F:\Andrei\ANUL II\Semestrul I\POO\Proiect2---POO\.\src\Test.java:9:28: Using the '.*' form of import should be avoided - java.util.concurrent.*. [AvoidStarImport]
 [ERROR] F:\Andrei\ANUL II\Semestrul I\POO\Proiect2---POO\.\src\Test.java:158: Line is longer than 100 characters (found 108). [LineLength]
 [ERROR] F:\Andrei\ANUL II\Semestrul I\POO\Proiect2---POO\.\src\Test.java:206:65: Parameter testFileName should be final. [FinalParameters]
 [ERROR] F:\Andrei\ANUL II\Semestrul I\POO\Proiect2---POO\.\src\Test.java:222: Line is longer than 100 characters (found 108). [LineLength]
 Audit done.
-Checkstyle ends with 24 errors.
+Checkstyle ends with 25 errors.
